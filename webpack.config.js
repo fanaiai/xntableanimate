@@ -11,6 +11,7 @@ module.exports = {
         xntableanimate:{
             import:'./src/xntableanimate.js',
         }
+
     },
     // devtool:'source-map',//追踪错误源码
     devtool:'eval-source-map',//追踪错误源码
