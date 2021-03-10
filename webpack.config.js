@@ -8,7 +8,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 module.exports = {
     mode:'development',
     entry: {
-        xncolorpicker:{
+        xntableanimate:{
             import:'./src/xntableanimate.js',
         }
     },

@@ -40,25 +40,24 @@ import './xntableanimate.css'
             var height=curTr.outerHeight();
             let curHeight=0;
 
-            setTimeout(()=>{
-                let interval=setInterval(()=>{
-                    curHeight+=1;
-                    $(this.dom).css({
-                        'margin-top':`${-curHeight+'px'}`
-                    })
-                    if(curHeight>=height){
-                        clearInterval(interval);
-                        this.bodydom.appendChild(curTr.get(key))
-                        $(this.dom).css({
-                            'margin-top':`0px`
-                        })
-                        this.animate(key)
-                    }
-                    else{
-
-                    }
-                },this.option.animate.speedTimeLength)
-            },this.option.animate.sleepTime)
+            // setTimeout(()=>{
+            //     let interval=setInterval(()=>{
+            //         $(this.dom).css({
+            //             'margin-top':`${-curHeight+'px'}`
+            //         })
+            //         if(curHeight>=height){
+            //             clearInterval(interval);
+            //             this.bodydom.appendChild(curTr.get(key))
+            //             $(this.dom).css({
+            //                 'margin-top':`0px`
+            //             })
+            //             this.animate(key)
+            //         }
+            //         else{
+            //
+            //         }
+            //     },this.option.animate.speedTimeLength)
+            // },this.option.animate.sleepTime)
         },
     }
     window.XNTableAnimate = XNTableAnimate;
