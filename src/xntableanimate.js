@@ -19,46 +19,95 @@ import './xntableanimate.css'
         }
     }
 
-    function XNTableAnimate(dom, options) {
+    function XNTableAnimate(dom,scrollDom, options) {
         this.option = $.extend(true,{}, option, options);
         this.dom = dom;
+        this.scrollDom=scrollDom;
+        scrollDom.classList.add('xntable-scrolldom')
+        this.totalHeight=$(dom).outerHeight();
+        this.pNodeHeight=$(scrollDom).outerHeight();
+        if(this.totalHeight<=this.pNodeHeight){
+            return;
+        }
         this.bodydom=dom.querySelector('tbody')||dom;
         // this[this.option.type]()
+        this.mouseover=false;
         this.init()
+        this.addEvent();
     }
 
     XNTableAnimate.prototype = {
         init(){
-            var key=0;
-            this.animate(key);
+            this.key=0;
+            this.animate(this.key);
         },
-        animate(key){
-            if(!$(this.dom).find('tr').get(key)){
+        animate(){
+            if(!$(this.dom).find('tr').get(0)){
                 return;
             }
-            var curTr=$(this.dom).find('tr').eq(key);
+            this.key=key;
+            var curTr=$(this.dom).find('tr').eq(0);
             var height=curTr.outerHeight();
             let curHeight=0;
 
-            // setTimeout(()=>{
-            //     let interval=setInterval(()=>{
-            //         $(this.dom).css({
-            //             'margin-top':`${-curHeight+'px'}`
-            //         })
-            //         if(curHeight>=height){
-            //             clearInterval(interval);
-            //             this.bodydom.appendChild(curTr.get(key))
-            //             $(this.dom).css({
-            //                 'margin-top':`0px`
-            //             })
-            //             this.animate(key)
-            //         }
-            //         else{
-            //
-            //         }
-            //     },this.option.animate.speedTimeLength)
-            // },this.option.animate.sleepTime)
+            this.animationId = requestAnimationFrame(this.animate.bind(this))
         },
+        animate1(key){
+            if(this.mouseover){
+                return;
+            }
+            if(!$(this.dom).find('tr').get(0)){
+                return;
+            }
+            this.key=key;
+            var curTr=$(this.dom).find('tr').eq(0);
+            var height=curTr.outerHeight();
+            let curHeight=0;
+            console.log(key)
+            this.timeOut=setTimeout(()=>{
+                if(this.mouseover){
+                    console.log(3)
+                    clearTimeout(this.timeOut)
+                    return;
+                }
+                let interval=setInterval(()=>{
+                    curHeight+=1;
+                    // console.log(curHeight)
+                    $(this.dom).css({
+                        'margin-top':`${-curHeight+'px'}`
+                    })
+                    if(curHeight>=height){
+                        clearInterval(interval);
+                        this.bodydom.appendChild(curTr.get(0))
+                        $(this.dom).css({
+                            'margin-top':`0px`
+                        })
+                        console.log(curHeight,height)
+                        this.animate(key)
+                    }
+                    else{
+
+                    }
+                },this.option.animate.speedTimeLength)
+            },this.option.animate.sleepTime)
+        },
+        addEvent(){
+            document.addEventListener('mouseover',e=>{
+                var t=e.target;
+                if($(e.target).parents('.xntable-scrolldom').get(0)){
+                    t=$(e.target).parents('.xntable-scrolldom').get(0);
+                }
+                if(t==this.scrollDom){
+                this.mouseover=true;
+                return;
+                }
+                this.mouseover=false;
+                clearTimeout(this.timeOut)
+                this.timeOut=null;
+                console.log(2)
+                this.animate(this.key)
+            })
+        }
     }
     window.XNTableAnimate = XNTableAnimate;
 })(window, XNQuery)
