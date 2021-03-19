@@ -28,11 +28,15 @@
             border-collapse: collapse;
         }
         table td{
-            border-bottom:1px solid red;
+            border-bottom:1px solid #ccc;
         }
         table td{
-            padding:4px 0;
-            border-right:1px solid red;
+            padding:10px;
+            border-right:1px solid #ccc;
+        }
+        table tr:nth-child(2n){
+            /*background: #666;*/
+            /*color: #fff;*/
         }
     </style>
 </head>
@@ -43,44 +47,32 @@
             <a class="update" data-key="linerUp">linerUp-更新数字</a>
             <div class="table-cont">
                 <table class="linearUp">
-                    <tr>
-                        <td>范媛媛1</td>
+                    <tr class="item1">
+                        <td>第一条数据</td>
+                        <td>111</td>
+                        <td>111111</td>
+                        <td>111</td>
+                    </tr>
+                    <tr class="item2">
+                        <td>2</td>
                         <td>33</td>
                         <td>北京久其</td>
                         <td>111</td>
                     </tr>
-                    <tr>
-                        <td>范媛媛2</td>
+                    <tr class="item3">
+                        <td>3</td>
                         <td>33</td>
                         <td>北京久其</td>
                         <td>111</td>
                     </tr>
-                    <tr>
-                        <td>范媛媛3</td>
-                        <td>33</td>
-                        <td>北京久其</td>
-                        <td>111</td>
-                    </tr>
-                    <tr>
-                        <td>范媛媛4范媛媛4范媛媛4范媛媛4范媛媛4范媛媛4范媛媛4范媛媛4范媛媛4</td>
+                    <tr class="item4">
+                        <td>4</td>
                         <td>33</td>
                         <td>北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其北京久其</td>
                         <td>111</td>
                     </tr>
-                    <tr>
-                        <td>范媛媛5</td>
-                        <td>33</td>
-                        <td>北京久其</td>
-                        <td>111</td>
-                    </tr>
-                    <tr>
-                        <td>范媛媛6</td>
-                        <td>33</td>
-                        <td>北京久其</td>
-                        <td>111</td>
-                    </tr>
-                    <tr>
-                        <td>范媛媛7</td>
+                    <tr class="item5">
+                        <td>5</td>
                         <td>33</td>
                         <td>北京久其</td>
                         <td>111</td>
@@ -88,27 +80,10 @@
                 </table>
             </div>
         </div>
-<!--        <div>-->
-<!--            <a class="update" data-key="sameTimeUp">sameTimeUp-更新数字</a>-->
-<!--            <div class="sameTimeUp"></div>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <a class="update" data-key="linerChange">linerChange-更新数字</a>-->
-<!--            <div class="linerChange"></div>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <a class="update" data-key="sameTimeChange">sameTimeChange-更新数字</a>-->
-<!--            <div class="sameTimeChange"></div>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <a class="update" data-key="easyChange">easyChange-更新数字</a>-->
-<!--            <div class="easyChange"></div>-->
-<!--        </div>-->
     </div>
 </body>
 <script src="./dist/xnnumberturner.min.js"></script>
 <script>
-    console.log(document.querySelector(".linearUp"))
     var linerUp=new XNTableAnimate(document.querySelector(".linearUp"),document.querySelector(".table-cont"),{
         type:'linerUp',//
         // linerUp：匀速向上翻转，
@@ -117,74 +92,10 @@
         // sameTimeChange:总时长相同数字变化,
         // easyChange:普通从最小值向上变
         animate:{
-            speedTimeLength: 20,
-            sleepTime: 0,
-            totalTime: 1000,//总时长
+            speedTimeLength: 20,//步长，滚动时长，越少越快
+            sleepTime: 0,//停顿时长 ms
+            // totalTime: 1000,//总时长
         }
     })
-    // var sameTimeUp=new XNNumberTuner(document.querySelector(".sameTimeUp"),{
-    //     type:'sameTimeUp',//
-    //     // linerUp：匀速向上翻转，
-    //     // sameTimeUp：总时间相同向上翻转，
-    //     // linerChange:每个位数匀速数字变化，
-    //     // sameTimeChange:总时长相同数字变化,
-    //     // easyChange:普通从最小值向上变
-    //     animate:{
-    //         speedTimeLength: 2,
-    //         sleepTime: 10,
-    //         totalTime: 2000,//总时长
-    //     },
-    //     number:'89,563'
-    // })
-    // var linerChange=new XNNumberTuner(document.querySelector(".linerChange"),{
-    //     type:'linerChange',//
-    //     // linerUp：匀速向上翻转，
-    //     // sameTimeUp：总时间相同向上翻转，
-    //     // linerChange:每个位数匀速数字变化，
-    //     // sameTimeChange:总时长相同数字变化,
-    //     // easyChange:普通从最小值向上变
-    //     animate:{
-    //         speedTimeLength: 2,
-    //         sleepTime: 10,
-    //         totalTime: 2000,//总时长
-    //     },
-    //     number:'89,563'
-    // })
-    // var sameTimeChange=new XNNumberTuner(document.querySelector(".sameTimeChange"),{
-    //     type:'sameTimeChange',//
-    //     // linerUp：匀速向上翻转，
-    //     // sameTimeUp：总时间相同向上翻转，
-    //     // linerChange:每个位数匀速数字变化，
-    //     // sameTimeChange:总时长相同数字变化,
-    //     // easyChange:普通从最小值向上变
-    //     animate:{
-    //         speedTimeLength: 2,
-    //         sleepTime: 10,
-    //         totalTime: 2000,//总时长
-    //     },
-    //     number:'89,563'
-    // })
-    // var easyChange=new XNNumberTuner(document.querySelector(".easyChange"),{
-    //     type:'easyChange',//
-    //     // linerUp：匀速向上翻转，
-    //     // sameTimeUp：总时间相同向上翻转，
-    //     // linerChange:每个位数匀速数字变化，
-    //     // sameTimeChange:总时长相同数字变化,
-    //     // easyChange:普通从最小值向上变
-    //     animate:{
-    //         speedTimeLength: 2,
-    //         sleepTime: 10,
-    //         totalTime: 2000,//总时长
-    //     },
-    //     number:'323'
-    // })
-    // document.querySelectorAll(".update").forEach(ele=>{
-    //     ele.addEventListener("click",e=>{
-    //         var newNumber='191,578';
-    //         var key=e.target.getAttribute('data-key')
-    //         window[key].updateNumber(newNumber)
-    //     })
-    // })
-
 </script>
 </html>

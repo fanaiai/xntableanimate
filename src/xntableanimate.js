@@ -4,7 +4,7 @@
 //! version : 1.0.0
 //! authors : 范媛媛
 //! create date:2021/03/09
-//! update date:2021/03/09 发布
+//! update date:2021/03/19 发布
 import './xnquery.js'
 import './xntableanimate.css'
 
@@ -19,93 +19,93 @@ import './xntableanimate.css'
         }
     }
 
-    function XNTableAnimate(dom,scrollDom, options) {
-        this.option = $.extend(true,{}, option, options);
+    function XNTableAnimate(dom, scrollDom, options) {
+        this.option = $.extend(true, {}, option, options);
         this.dom = dom;
-        this.scrollDom=scrollDom;
+        this.scrollDom = scrollDom;
         scrollDom.classList.add('xntable-scrolldom')
-        this.totalHeight=$(dom).outerHeight();
-        this.pNodeHeight=$(scrollDom).outerHeight();
-        if(this.totalHeight<=this.pNodeHeight){
+        this.totalHeight = $(dom).outerHeight();
+        this.pNodeHeight = $(scrollDom).outerHeight();
+        if (this.totalHeight <= this.pNodeHeight) {
             return;
         }
-        this.bodydom=dom.querySelector('tbody')||dom;
-        // this[this.option.type]()
-        this.mouseover=false;
+        this.bodydom = dom.querySelector('tbody') || dom;
+        this.childrenItems=[];
+        this.totalElements = $(this.bodydom).children('tr').length();
+        $(this.bodydom).children('tr').each((ele) => {
+            var newdom = ele.cloneNode(true)
+            this.childrenItems.push(ele.cloneNode(true));
+            this.bodydom.append(newdom)
+        })
+        this.mouseover = false;
         this.init()
         this.addEvent();
     }
 
     XNTableAnimate.prototype = {
-        init(){
-            this.key=0;
+        init() {
+            this.key = 0;
+            this.curinterHeight = 0;
+            this.curscrollHeight = 0;
             this.animate(this.key);
         },
-        animate(){
-            if(!$(this.dom).find('tr').get(0)){
+        animate() {
+            if (this.mouseover) {
                 return;
             }
-            this.key=key;
-            var curTr=$(this.dom).find('tr').eq(0);
-            var height=curTr.outerHeight();
-            let curHeight=0;
-
-            this.animationId = requestAnimationFrame(this.animate.bind(this))
-        },
-        animate1(key){
-            if(this.mouseover){
+            if (!$(this.dom).find('tr').get(0)) {
                 return;
             }
-            if(!$(this.dom).find('tr').get(0)){
-                return;
-            }
-            this.key=key;
-            var curTr=$(this.dom).find('tr').eq(0);
-            var height=curTr.outerHeight();
-            let curHeight=0;
-            console.log(key)
-            this.timeOut=setTimeout(()=>{
-                if(this.mouseover){
-                    console.log(3)
+            var curTr = $(this.dom).find('tr').eq(this.key);
+            var height = curTr.outerHeight();
+            clearTimeout(this.timeOut)
+            this.timeOut = setTimeout(() => {
+                if (this.mouseover) {
                     clearTimeout(this.timeOut)
+                    clearInterval(this.interval)
                     return;
                 }
-                let interval=setInterval(()=>{
-                    curHeight+=1;
-                    // console.log(curHeight)
+                this.interval = setInterval(() => {
+                    this.curinterHeight += 1;
+                    this.curscrollHeight += 1;
                     $(this.dom).css({
-                        'margin-top':`${-curHeight+'px'}`
+                        'margin-top': `${-this.curscrollHeight + 'px'}`
                     })
-                    if(curHeight>=height){
-                        clearInterval(interval);
-                        this.bodydom.appendChild(curTr.get(0))
-                        $(this.dom).css({
-                            'margin-top':`0px`
-                        })
-                        console.log(curHeight,height)
-                        this.animate(key)
-                    }
-                    else{
+                    if (this.curinterHeight >= height) {
+                        clearInterval(this.interval);
+                        this.key+=1;
+                        if (this.key == this.totalElements) {
+                            $(this.dom).css({
+                                'margin-top': `0px`
+                            })
+                            this.curscrollHeight = 0;
+                            this.key=0;
+                        }
+                        this.curinterHeight =0;
+                        this.animate(this.key)
+                    } else {
 
                     }
-                },this.option.animate.speedTimeLength)
-            },this.option.animate.sleepTime)
+                }, this.option.animate.speedTimeLength)
+            }, this.option.animate.sleepTime)
         },
-        addEvent(){
-            document.addEventListener('mouseover',e=>{
-                var t=e.target;
-                if($(e.target).parents('.xntable-scrolldom').get(0)){
-                    t=$(e.target).parents('.xntable-scrolldom').get(0);
+        addEvent() {
+            document.addEventListener('mouseover', e => {
+                var t = e.target;
+                if ($(e.target).parents('.xntable-scrolldom').get(0)) {
+                    t = $(e.target).parents('.xntable-scrolldom').get(0);
                 }
-                if(t==this.scrollDom){
-                this.mouseover=true;
-                return;
+                if (t == this.scrollDom) {
+                    this.mouseover = true;
+                    clearTimeout(this.timeOut)
+                    clearInterval(this.interval)
+                    this.timeOut = null;
+                    return;
                 }
-                this.mouseover=false;
-                clearTimeout(this.timeOut)
-                this.timeOut=null;
-                console.log(2)
-                this.animate(this.key)
+                if (!this.timeOut) {
+                    this.mouseover = false;
+                    this.animate(this.key)
+                }
             })
         }
     }

@@ -1,7 +1,7 @@
 {
   "name": "xnnumbertuner",
   "version": "1.0.0",
-  "description": "仙女座翻牌器",
+  "description": "仙女座表格滚动器",
   "dependencies": {
     "url-loader": "^4.1.1"
   },
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --env production",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
     "server": "node server.js"
