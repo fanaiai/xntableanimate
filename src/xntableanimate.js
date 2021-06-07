@@ -49,6 +49,15 @@ import './xntableanimate.css'
             this.curscrollHeight = 0;
             this.animate(this.key);
         },
+        getTransform(t){
+            let translate = document.defaultView.getComputedStyle(t,null).transform.split(', ')
+            let top = parseFloat(translate[translate.length - 1])||0;
+            return top;
+        },
+        setTransform($t,translateTop){
+            // console.log(translateTop);
+            $t.css({transform: 'translateY(' + translateTop + 'px)'})
+        },
         animate() {
             if (this.mouseover) {
                 return;
@@ -68,16 +77,18 @@ import './xntableanimate.css'
                 this.interval = setInterval(() => {
                     this.curinterHeight += 1;
                     this.curscrollHeight += 1;
-                    $(this.dom).css({
-                        'margin-top': `${-this.curscrollHeight + 'px'}`
-                    })
+                    this.setTransform($(this.dom),-this.curscrollHeight)
+                    // $(this.dom).css({
+                    //     'margin-top': `${-this.curscrollHeight + 'px'}`
+                    // })
                     if (this.curinterHeight >= height) {
                         clearInterval(this.interval);
                         this.key+=1;
                         if (this.key == this.totalElements) {
-                            $(this.dom).css({
-                                'margin-top': `0px`
-                            })
+                            this.setTransform($(this.dom),0)
+                            // $(this.dom).css({
+                            //     'margin-top': `0px`
+                            // })
                             this.curscrollHeight = 0;
                             this.key=0;
                         }
